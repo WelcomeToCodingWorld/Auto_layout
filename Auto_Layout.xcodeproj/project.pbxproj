@@ -10,6 +10,10 @@
 		3A25D25F1FA1D64800A1C6EC /* Auto_Layout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25D2551FA1D64800A1C6EC /* Auto_Layout.framework */; };
 		3A25D2641FA1D64800A1C6EC /* Auto_LayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25D2631FA1D64800A1C6EC /* Auto_LayoutTests.swift */; };
 		3A25D2661FA1D64800A1C6EC /* Auto_Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A25D2581FA1D64800A1C6EC /* Auto_Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A5721071FA2BFE200D06E72 /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */; };
+		3A5721091FA3023600D06E72 /* AutoLayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */; };
+		3A57210B1FA302DF00D06E72 /* UIView+ChangeFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */; };
+		3A6882A21FA3282600646669 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6882A11FA3282600646669 /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +34,10 @@
 		3A25D2631FA1D64800A1C6EC /* Auto_LayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auto_LayoutTests.swift; sourceTree = "<group>"; };
 		3A25D2651FA1D64800A1C6EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A25D2701FA1D77F00A1C6EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayout.swift"; sourceTree = "<group>"; };
+		3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutModel.swift; sourceTree = "<group>"; };
+		3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ChangeFrame.swift"; sourceTree = "<group>"; };
+		3A6882A11FA3282600646669 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +83,10 @@
 			children = (
 				3A25D2581FA1D64800A1C6EC /* Auto_Layout.h */,
 				3A25D2591FA1D64800A1C6EC /* Info.plist */,
+				3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */,
+				3A6882A11FA3282600646669 /* Util.swift */,
+				3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */,
+				3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -166,6 +178,7 @@
 				TargetAttributes = {
 					3A25D2541FA1D64800A1C6EC = {
 						CreatedOnToolsVersion = 9.0.1;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					3A25D25D1FA1D64800A1C6EC = {
@@ -214,6 +227,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A5721091FA3023600D06E72 /* AutoLayoutModel.swift in Sources */,
+				3A57210B1FA302DF00D06E72 /* UIView+ChangeFrame.swift in Sources */,
+				3A5721071FA2BFE200D06E72 /* UIView+AutoLayout.swift in Sources */,
+				3A6882A21FA3282600646669 /* Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +369,7 @@
 		3A25D26A1FA1D64800A1C6EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -365,6 +383,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "lesta.Auto-Layout";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -373,6 +392,7 @@
 		3A25D26B1FA1D64800A1C6EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -394,6 +414,7 @@
 		3A25D26D1FA1D64800A1C6EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YD6H32NYXJ;
 				INFOPLIST_FILE = Auto_LayoutTests/Info.plist;
@@ -408,6 +429,7 @@
 		3A25D26E1FA1D64800A1C6EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YD6H32NYXJ;
 				INFOPLIST_FILE = Auto_LayoutTests/Info.plist;
