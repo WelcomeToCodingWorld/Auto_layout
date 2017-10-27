@@ -99,7 +99,12 @@ extension UIView {
         
     }
     
-    @objc func autoLayoutSubviews() {
+    @objc func al_autoLayoutSubviews() {
+        al_autoLayoutSubviews()
+        al_layoutSubviewsHandle()
+    }
+    
+    private func al_layoutSubviewsHandle() {
         
     }
 }
@@ -110,7 +115,7 @@ extension UIView {
 extension UIView:SelfAware {
     static func awake() {
         let originMethod = class_getInstanceMethod(self, #selector(layoutSubviews))
-        let customMethod = class_getInstanceMethod(self, #selector(autoLayoutSubviews))
+        let customMethod = class_getInstanceMethod(self, #selector(al_autoLayoutSubviews))
         method_exchangeImplementations(originMethod!, customMethod!)
     }
 }

@@ -13,7 +13,7 @@
 		3A5721071FA2BFE200D06E72 /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */; };
 		3A5721091FA3023600D06E72 /* AutoLayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */; };
 		3A57210B1FA302DF00D06E72 /* UIView+ChangeFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */; };
-		3A6882A21FA3282600646669 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6882A11FA3282600646669 /* Util.swift */; };
+		3A6882A21FA3282600646669 /* MethodSwizzlingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +37,7 @@
 		3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayout.swift"; sourceTree = "<group>"; };
 		3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutModel.swift; sourceTree = "<group>"; };
 		3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ChangeFrame.swift"; sourceTree = "<group>"; };
-		3A6882A11FA3282600646669 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodSwizzlingSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 				3A25D2581FA1D64800A1C6EC /* Auto_Layout.h */,
 				3A25D2591FA1D64800A1C6EC /* Info.plist */,
 				3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */,
-				3A6882A11FA3282600646669 /* Util.swift */,
+				3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */,
 				3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */,
 				3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */,
 			);
@@ -230,7 +230,7 @@
 				3A5721091FA3023600D06E72 /* AutoLayoutModel.swift in Sources */,
 				3A57210B1FA302DF00D06E72 /* UIView+ChangeFrame.swift in Sources */,
 				3A5721071FA2BFE200D06E72 /* UIView+AutoLayout.swift in Sources */,
-				3A6882A21FA3282600646669 /* Util.swift in Sources */,
+				3A6882A21FA3282600646669 /* MethodSwizzlingSupport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
