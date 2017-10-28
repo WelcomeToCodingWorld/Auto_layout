@@ -21,7 +21,7 @@ class AutoLayoutModel:NSObject {
         var offset:CGFloat = 0
     }
     
-    var needAutoResizeView : UIView?
+    weak var needAutoResizeView : UIView?
     
     var width : AutoLayoutModelItem?
     var height:AutoLayoutModelItem?
@@ -29,8 +29,8 @@ class AutoLayoutModel:NSObject {
     var right:AutoLayoutModelItem?
     var top:AutoLayoutModelItem?
     var bottom:AutoLayoutModelItem?
-    var centerX:CGFloat = 0
-    var centerY:CGFloat = 0
+    var centerX:CGFloat?
+    var centerY:CGFloat?
     
     var maxHeight:AutoLayoutModelItem?
     var maxWidth : AutoLayoutModelItem?
