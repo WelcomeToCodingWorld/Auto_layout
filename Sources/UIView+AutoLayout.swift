@@ -18,6 +18,10 @@ extension UIView {
             let model = AutoLayoutModel()
             model.needAutoResizeView = self
             ownLayoutModel = model
+            guard let sv = superview else{
+                fatalError("cannot layout view:\(self) before been added to a superview")
+            }
+            sv.autoLaoutModels.append(model)
             return model
         }
     }
@@ -35,9 +39,13 @@ extension UIView {
     var autoLaoutModels : [AutoLayoutModel] {
         get {
             if  (objc_getAssociatedObject(self, "autoLaoutModels.key") as? [AutoLayoutModel]) == nil {
-                objc_setAssociatedObject(self, "autoLaoutModels.key", [AutoLayoutModel](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                self.autoLaoutModels = [AutoLayoutModel]()
             }
             return (objc_getAssociatedObject(self, "autoLaoutModels.key") as? [AutoLayoutModel])!
+        }
+        
+        set{
+            objc_setAssociatedObject(self, "autoLaoutModels.key", [AutoLayoutModel](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -75,6 +83,29 @@ extension UIView {
         }else if let ratioWidth = model.ratio_width {
             view.width_al = (ratioWidth.refView?.width_al)!*ratioWidth.value
             view.fixedWidth = view.width_al
+        }
+    }
+    
+    func layoutAutoWidth(view:UIView,model:AutoLayoutModel) {
+        guard view is UILabel else {
+            return
+        }
+        if let label = (view as? UILabel) {
+            let width = view.maxWidth ?? CGFloat(MAXFLOAT)
+            label.numberOfLines = 1
+            if let txt = label.text {
+                if txt.characters.count > 0 {
+                    if let attributed = label.isAttributedText {
+                        if attributed {
+//                            let rect
+                            
+                        }
+                    }
+                }
+            }
+            
+            
+            
         }
     }
     
@@ -324,9 +355,55 @@ extension UIView  {
     }
 }
 
+extension UILabel {
+    func singleLineAutoResize(with maxWidth:CGFloat) {
+        self.maxWidth = maxWidth
+    }
+    
+    func showMaxNumberOfLines(_ lineCount:UInt) {
+        assert(ownLayoutModel != nil, "you should set this step after layout")
+        if lineCount > 0 {
+            al_layout().maxHeightIs(value: self.font.lineHeight*CGFloat(lineCount) + 0.1)
+        }else {
+            al_layout().maxHeightIs(value: CGFloat(MAXFLOAT))
+        }
+    }
+    
+    @objc func al_setText(text:String) {
+        al_setText(text: text)
+        if maxWidth != nil {
+            sizeToFit()
+        }else if autoHeightRatioValue != nil {
+            self.size = .zero
+        }
+    }
+    
+}
+
+// MARK: UILable Runtime keys
+extension UILabel {
+    var isAttributedText : Bool? {
+        get{
+            return objc_getAssociatedObject(self, "isAttributedText.key") as? Bool
+        }
+        set{
+            objc_setAssociatedObject(self, "isAttributedText.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+}
+
+// MARK: UILabel method swizzling
+extension SelfAware where Self:UILabel {
+    static func awake() {
+        let originMethod = class_getClassMethod(self, #selector(setter: text))
+        let customMethod = class_getClassMethod(self, #selector(al_setText(text:)))
+        method_exchangeImplementations(originMethod!, customMethod!)
+    }
+}
+
 
 // MARK: method swizzling
-extension UIView:SelfAware {
+extension SelfAware where Self:UIView{
     static func awake() {
         let originMethod = class_getInstanceMethod(self, #selector(layoutSubviews))
         let customMethod = class_getInstanceMethod(self, #selector(al_autoLayoutSubviews))
