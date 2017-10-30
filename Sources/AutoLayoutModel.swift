@@ -13,7 +13,7 @@ typealias RatioToView = (UIView,CGFloat)->AutoLayoutModel
 typealias WHEqual = ()->AutoLayoutModel
 typealias SpaceToSuperView = (UIEdgeInsets)->AutoLayoutModel
 
-class AutoLayoutModel:NSObject {
+public class AutoLayoutModel:NSObject {
     struct AutoLayoutModelItem {
         var value:CGFloat = 0
         var refView:UIView?
@@ -23,15 +23,17 @@ class AutoLayoutModel:NSObject {
     
     weak var needAutoResizeView : UIView?
     
-    var width : AutoLayoutModelItem?
-    var height:AutoLayoutModelItem?
-    var left:AutoLayoutModelItem?
-    var right:AutoLayoutModelItem?
-    var top:AutoLayoutModelItem?
-    var bottom:AutoLayoutModelItem?
+    
+    var space_left:AutoLayoutModelItem?
+    var space_right:AutoLayoutModelItem?
+    var space_top:AutoLayoutModelItem?
+    var space_bottom:AutoLayoutModelItem?
+    
     var centerX:CGFloat?
     var centerY:CGFloat?
     
+    var width : AutoLayoutModelItem?
+    var height:AutoLayoutModelItem?
     var maxHeight:AutoLayoutModelItem?
     var maxWidth : AutoLayoutModelItem?
     var minHeight: AutoLayoutModelItem?
@@ -57,47 +59,47 @@ class AutoLayoutModel:NSObject {
     var lastModelItem:AutoLayoutModelItem?
     
     @discardableResult
-    func leftSpaceToView(view:AnyObject,value:CGFloat)->AutoLayoutModel{
-        return self.spaceToView(for: "left")(view, value)
+    public func leftSpaceToView(_ view:AnyObject,_ value:CGFloat)->AutoLayoutModel{
+        return self.spaceToView(for: "space_left")(view, value)
     }
     
     @discardableResult
-    func rightSpaceToView(view:AnyObject,value:CGFloat)->AutoLayoutModel {
-        return spaceToView(for: "right")(view, value)
+    public func rightSpaceToView(_ view:AnyObject,_ value:CGFloat)->AutoLayoutModel {
+        return spaceToView(for: "space_right")(view, value)
     }
     
     @discardableResult
-    func topSpaceToViw(view:AnyObject,value:CGFloat)->AutoLayoutModel {
-        return spaceToView(for: "top")(view, value)
+    public func topSpaceToView(_ view:AnyObject,_ value:CGFloat)->AutoLayoutModel {
+        return spaceToView(for: "space_top")(view, value)
     }
     
     @discardableResult
-    func bottomSpaceToViw(view:AnyObject,value:CGFloat)->AutoLayoutModel {
-        return spaceToView(for: "bottom")(view, value)
+    public func bottomSpaceToViw(_ view:AnyObject,_ value:CGFloat)->AutoLayoutModel {
+        return spaceToView(for: "space_bottom")(view, value)
     }
     
     @discardableResult
-    func xIs(value:CGFloat)->AutoLayoutModel {
+    public func xIs(_ value:CGFloat)->AutoLayoutModel {
         return equal(for: "x")(value)
     }
     
     @discardableResult
-    func yIs(value:CGFloat)->AutoLayoutModel {
+    public func yIs(_  value:CGFloat)->AutoLayoutModel {
         return equal(for: "y")(value)
     }
     
     @discardableResult
-    func centerXIs(value:CGFloat)->AutoLayoutModel {
+    public func centerXIs(_ value:CGFloat)->AutoLayoutModel {
         return equal(for: "centerX")(value)
     }
     
     @discardableResult
-    func centerYIs(value:CGFloat)->AutoLayoutModel {
+    public func centerYIs(_ value:CGFloat)->AutoLayoutModel {
         return equal(for: "centerY")(value)
     }
     
     @discardableResult
-    func heightIs(value:CGFloat)->AutoLayoutModel {
+    public func heightIs(_ value:CGFloat)->AutoLayoutModel {
         var item = AutoLayoutModelItem()
         item.value = value
         self.height = item
@@ -105,7 +107,7 @@ class AutoLayoutModel:NSObject {
     }
     
     @discardableResult
-    func widthIs(value:CGFloat)->AutoLayoutModel {
+    public func widthIs(_ value:CGFloat)->AutoLayoutModel {
         var item = AutoLayoutModelItem()
         item.value = value
         self.width = item
@@ -113,57 +115,57 @@ class AutoLayoutModel:NSObject {
     }
     
     @discardableResult
-    func maxHeightIs(value:CGFloat)->AutoLayoutModel {
+    public func maxHeightIs(_ value:CGFloat)->AutoLayoutModel {
         return limitWH(for: "maxHeight")(value)
     }
     
     @discardableResult
-    func maxWidthIs(value:CGFloat)->AutoLayoutModel {
+    public func maxWidthIs(_ value:CGFloat)->AutoLayoutModel {
         return limitWH(for: "maxWidth")(value)
     }
     
     @discardableResult
-    func minHeightIs(value:CGFloat)->AutoLayoutModel {
+    public func minHeightIs(_ value:CGFloat)->AutoLayoutModel {
         return limitWH(for: "minHeight")(value)
     }
     
     @discardableResult
-    func minWidthIs(value:CGFloat)->AutoLayoutModel {
+    public func minWidthIs(_ value:CGFloat)->AutoLayoutModel {
         return limitWH(for: "minWidth")(value)
     }
     
     @discardableResult
-    func leftEqualToView(view:UIView)->AutoLayoutModel {
+    public func leftEqualToView(_ view:UIView)->AutoLayoutModel {
         return equalToView(for: "equal_left")(view)
     }
     
     @discardableResult
-    func rightEqualToView(view:UIView)->AutoLayoutModel {
+    public func rightEqualToView(_ view:UIView)->AutoLayoutModel {
         return equalToView(for: "equal_right")(view)
     }
     
     @discardableResult
-    func topEqualToView(view:UIView)->AutoLayoutModel {
+    public func topEqualToView(_ view:UIView)->AutoLayoutModel {
         return equalToView(for: "equal_top")(view)
     }
     
     @discardableResult
-    func bottomEqualToView(view:UIView)->AutoLayoutModel {
+    public func bottomEqualToView(_ view:UIView)->AutoLayoutModel {
         return equalToView(for: "equal_bottom")(view)
     }
     
     @discardableResult
-    func centerXEqualToView(view:UIView)->AutoLayoutModel {
+    public func centerXEqualToView(_ view:UIView)->AutoLayoutModel {
         return equalToView(for: "equal_centerX")(view)
     }
     
     @discardableResult
-    func centerYEqualToView(view:UIView)->AutoLayoutModel {
+    public func centerYEqualToView(_ view:UIView)->AutoLayoutModel {
         return equalToView(for: "equal_centerY")(view)
     }
     
     @discardableResult
-    func widthRatioToView(view:UIView,value:CGFloat)->AutoLayoutModel {
+    public func widthRatioToView(_ view:UIView,_ value:CGFloat)->AutoLayoutModel {
         self.ratio_width = AutoLayoutModelItem()
         self.ratio_width?.refView = view
         self.ratio_width?.value = value
@@ -171,7 +173,7 @@ class AutoLayoutModel:NSObject {
     }
     
     @discardableResult
-    func heightRatioToView(view:UIView,value:CGFloat)->AutoLayoutModel {
+    public func heightRatioToView(_ view:UIView,_ value:CGFloat)->AutoLayoutModel {
         self.ratio_height = AutoLayoutModelItem()
         self.ratio_height?.refView = view
         self.ratio_height?.value = value
@@ -179,40 +181,39 @@ class AutoLayoutModel:NSObject {
     }
     
     @discardableResult
-    func widthEqualToHeight()->AutoLayoutModel {
+    public func widthEqualToHeight()->AutoLayoutModel {
         let item = AutoLayoutModelItem()
         self.equal_wh = item
         self.lastModelItem = item
-        // TODO:explicitly change the height of the needAutoResizeView
-        
+        needAutoResizeView?.height_al = (needAutoResizeView?.height_al)!
         return self
     }
     
     @discardableResult
-    func heightEqualToWidth()->AutoLayoutModel {
+    public func heightEqualToWidth()->AutoLayoutModel {
         let item = AutoLayoutModelItem()
         self.equal_hw = item
         self.lastModelItem = item
-        // TODO:explicitly change the width of the needAutoResizeView
-        
+        needAutoResizeView?.width_al = (needAutoResizeView?.width_al)!
         return self
     }
     
     @discardableResult
-    func autoHeightRatio(value:CGFloat)->AutoLayoutModel {
-        // TODO:explicitly change the autoHeightRatioValue of the needAutoResizeView
-        
+    public func autoHeightRatio(value:CGFloat)->AutoLayoutModel {
+        needAutoResizeView?.autoHeightRatioValue = value
         return self
     }
     
     @discardableResult
-    func spaceToSuperView(insets:UIEdgeInsets)->AutoLayoutModel {
-        // TODO:layout the autoHeightRatioValue of the needAutoResizeView if it's superview is exist
+    public func spaceToSuperView(insets:UIEdgeInsets)->AutoLayoutModel {
+        if let superView = needAutoResizeView?.superview {
+            needAutoResizeView?.al_layout().leftSpaceToView(superView, insets.left).rightSpaceToView(superView, insets.right).topSpaceToView(superView, insets.top).bottomSpaceToViw(superView, insets.bottom)
+        }
         return self
     }
     
     @discardableResult
-    func offset(offset:CGFloat)->AutoLayoutModel {
+    public func offset(offset:CGFloat)->AutoLayoutModel {
         self.lastModelItem?.offset = offset
         return self
     }
@@ -256,10 +257,10 @@ extension AutoLayoutModel {
     
     private func equal(for key:String)->Is {
         return {[weak self] (value:CGFloat) in
-            if key == "x" {// TODO: change the x of  the needAutoResizeView's frame
-                
+            if key == "x" {
+                self?.needAutoResizeView?.left = value
             }else if key == "y" {
-                
+                self?.needAutoResizeView?.top = value
             }else if key == "centerX" {
                 self?.centerX = value
             }else if key == "centerY" {

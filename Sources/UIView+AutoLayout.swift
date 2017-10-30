@@ -7,7 +7,7 @@
 //
 
 extension UIView {
-    func al_layout()->AutoLayoutModel {
+    public func al_layout()->AutoLayoutModel {
         #if DEBUG
             assert(self.superview != nil, "call this method after the view\(self) has been added to a superview")
         #endif
@@ -54,23 +54,161 @@ extension UIView {
         al_layoutSubviewsHandle()
     }
     
+    private func resize(with model:AutoLayoutModel){
+        guard let view = model.needAutoResizeView else {
+            return
+        }
+        if view.maxWidth != nil && (model.space_right != nil || model.equal_right != nil) {
+            layoutAutoWidth(view: view, model: model)
+            fixedWidth = view.width_al
+        }
+        layoutWidth(view: view, model: model)
+        layoutHeight(view: view, model: model)
+        layoutLeft(view: view, model: model)
+        layoutRight(view: view, model: model)
+        
+        if view.autoHeightRatioValue != nil && view.width_al > 0 && (model.space_bottom != nil || model.equal_bottom != nil) {
+            layoutAutoHeight(view: view, model: model)
+            fixedHeight = view.height_al
+        }
+        
+        layoutTop(view: view, model: model)
+        layoutBottom(view: view, model: model)
+        
+        if view.maxWidth != nil {
+            layoutAutoWidth(view: view, model: model)
+        }
+        
+        if let maxWidth = model.maxWidth {
+            width_al = min(maxWidth.value, width_al)
+        }
+        
+        if let minWidth = model.minWidth {
+            height_al = max(minWidth.value, height_al)
+        }
+        
+        if autoHeightRatioValue != nil && width_al > 0 {
+            layoutAutoHeight(view: view, model: model)
+        }
+        
+        if let maxHeight = model.maxHeight {
+            height_al = min(maxHeight.value, height_al)
+        }
+        
+        if let minHeight = model.minHeight {
+            height_al = max(minHeight.value, height_al)
+        }
+        
+        if model.equal_wh != nil {
+            width_al = height_al
+        }
+        
+        if model.equal_hw != nil{
+            height_al = width_al
+        }
+    }
+    
     private func al_layoutSubviewsHandle() {
         // TODO: layout handle method
+        if autoLaoutModels.count > 0 {
+            for model in autoLaoutModels {
+                resize(with: model)
+            }
+        }
     }
 }
 
 // MARK: atuto widht,height
 extension UIView {
+    var extManager:ExtManager? {
+        get {
+            if objc_getAssociatedObject(self, "extManager.key") as? ExtManager == nil {
+                objc_setAssociatedObject(self, "extManager.key", ExtManager(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+            return objc_getAssociatedObject(self, "extManager.key") as? ExtManager
+        }
+        set {
+            objc_setAssociatedObject(self, "extManager.key", ExtManager(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    var rightViewsArray : [UIView]? {
+        get {
+            return extManager?.rightViews
+        }
+        set {
+            extManager?.rightViews = newValue
+        }
+    }
+    
+    var bottomViewsArray:[UIView]? {
+        get{
+            if objc_getAssociatedObject(self, "bottomViewsArray.key") as? [UIView] == nil {
+                objc_setAssociatedObject(self, "bottomViewsArray.key", [UIView](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+            return objc_getAssociatedObject(self, "bottomViewsArray.key") as? [UIView]
+        }
+        set{
+            objc_setAssociatedObject(self, "bottomViewsArray.key", [UIView](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    var rightViewRightMargin:CGFloat? {
+        get{
+            return extManager?.rightViewRightMargin
+        }
+        
+        set{
+            extManager?.rightViewRightMargin = newValue
+        }
+    }
+    
+    var bottomViewBottomMargin:CGFloat? {
+        get{
+            return objc_getAssociatedObject(self, "bottomViewBottomMargin.key") as? CGFloat
+        }
+        
+        set{
+            objc_setAssociatedObject(self, "bottomViewBottomMargin.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    var autoHeight:CGFloat? {
+        get{
+            return objc_getAssociatedObject(self, "autoHeight.key") as? CGFloat
+        }
+        
+        set{
+            objc_setAssociatedObject(self, "autoHeight.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    
+    
     func setupAutoHeight(with bottomView:UIView,bottomMaigin:CGFloat) {
         setupAutoHeight(with: [bottomView], bottomMargin: bottomMaigin)
     }
     
     func setupAutoWidth(with rightView:UIView,rightMargin:CGFloat) {
-        
+        rightViewsArray?.removeAll()
+        rightViewsArray?.append(rightView)
+        rightViewRightMargin = rightMargin
     }
     
     func setupAutoHeight(with bottomViewsArray:[UIView],bottomMargin:CGFloat) {
-        
+        self.bottomViewsArray?.removeAll()
+        self.bottomViewsArray?.append(contentsOf: bottomViewsArray)
+        bottomViewBottomMargin = bottomMargin
+    }
+    
+    func clearAutoHeightSettings() {
+        bottomViewsArray?.removeAll()
+        bottomViewsArray = nil
+    }
+    
+    func clearAutoWidthSettings() {
+        rightViewsArray?.removeAll()
+        rightViewsArray = nil
     }
 }
 
@@ -96,16 +234,23 @@ extension UIView {
             if let txt = label.text {
                 if txt.characters.count > 0 {
                     if let attributed = label.isAttributedText {
-                        if attributed {
-//                            let rect
-                            
+                        if !attributed {
+                            var rect = (txt as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: label.height_al), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font:label.font], context: nil)
+                            if rect.size.width > width {
+                                rect.size.width = width
+                            }
+                            label.width = rect.size.width + 0.1
+                        }else {
+                            sizeToFit()
+                            if self.width_al > width {
+                                label.width_al = width
+                            }
                         }
                     }
+                }else {
+                    label.size = .zero
                 }
             }
-            
-            
-            
         }
     }
     
@@ -119,8 +264,35 @@ extension UIView {
         }
     }
     
+    func layoutAutoHeight(view:UIView,model:AutoLayoutModel) {
+        if let autoRatioValue = view.autoHeightRatioValue {
+            if autoRatioValue > 0 {
+                view.height_al = view.width_al*autoRatioValue
+            }else {
+                guard let label = view as? UILabel else{
+                    view.height_al = 0
+                    return
+                }
+                if let txt = label.text {
+                    if txt.characters.count > 0 {
+                        if let attributed = label.isAttributedText {
+                            if !attributed {
+                                let rect = (txt as NSString).boundingRect(with: CGSize(width: label.width_al, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font : label.font], context: nil)
+                                label.height_al = rect.size.height + 0.1
+                            }else {
+                                sizeToFit()
+                            }
+                        }
+                    }else {
+                        view.height_al = 0
+                    }
+                }
+            }
+        }
+    }
+    
     func layoutLeft(view:UIView,model:AutoLayoutModel) {
-        if let left = model.left {//space left
+        if let left = model.space_left {//space left
             guard  view == model.needAutoResizeView  else {//it's own model
                 return
             }
@@ -135,7 +307,7 @@ extension UIView {
                         var lastRefRight:CGFloat = 0
                         for view in leftViews {
                             if view.right > lastRefRight {
-                                model.left?.refView = view
+                                model.space_left?.refView = view
                                 lastRefRight = view.right
                             }
                         }
@@ -186,7 +358,7 @@ extension UIView {
         guard view == model.needAutoResizeView else {
             return
         }
-        if let right = model.right {
+        if let right = model.space_right {
             if view.superview == right.refView {//relative to it's superview. as:view.right + value = view.superview.width
                 if view.fixedWidth == nil {
                     view.width_al = (right.refView?.width_al)! - view.left - right.value
@@ -216,7 +388,7 @@ extension UIView {
     }
     
     func layoutTop(view:UIView,model:AutoLayoutModel) {
-        if let top = model.top {
+        if let top = model.space_top {
             if view.superview == top.refView {//relative to it's superview.
                 if view.fixedHeight == nil {
                     view.height_al = view.bottom - top.value
@@ -228,7 +400,7 @@ extension UIView {
                         var lastRefBottom:CGFloat = 0
                         for refView in refTopViews {
                             if refView.bottom > lastRefBottom {
-                                model.top?.refView = refView
+                                model.space_top?.refView = refView
                                 lastRefBottom = refView.bottom
                             }
                         }
@@ -265,7 +437,7 @@ extension UIView {
     }
     
     func layoutBottom(view:UIView,model:AutoLayoutModel) {
-        if let bottom = model.bottom {
+        if let bottom = model.space_bottom {
             if view.superview == bottom.refView {//relative to it's superview
                 if view.fixedHeight == nil {
                     view.height_al = (bottom.refView?.height_al)! - (bottom.value + view.top)
@@ -294,6 +466,10 @@ extension UIView {
         if model.equal_wh != nil && view.fixedHeight == nil {
             layoutRight(view: view, model: model)
         }
+    }
+    
+    func updateLayout() {
+        superview?.layoutSubviews()
     }
 }
 
@@ -355,6 +531,7 @@ extension UIView  {
     }
 }
 
+// MARK: UILable Layout
 extension UILabel {
     func singleLineAutoResize(with maxWidth:CGFloat) {
         self.maxWidth = maxWidth
@@ -363,9 +540,9 @@ extension UILabel {
     func showMaxNumberOfLines(_ lineCount:UInt) {
         assert(ownLayoutModel != nil, "you should set this step after layout")
         if lineCount > 0 {
-            al_layout().maxHeightIs(value: self.font.lineHeight*CGFloat(lineCount) + 0.1)
+             al_layout().maxWidthIs(font.lineHeight*CGFloat(lineCount) + 0.1)
         }else {
-            al_layout().maxHeightIs(value: CGFloat(MAXFLOAT))
+             al_layout().maxHeightIs(CGFloat(MAXFLOAT))
         }
     }
     
