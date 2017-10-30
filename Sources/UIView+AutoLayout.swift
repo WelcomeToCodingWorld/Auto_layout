@@ -80,11 +80,11 @@ extension UIView {
         }
         
         if let maxWidth = model.maxWidth {
-            width_al = min(maxWidth.value, width_al)
+            width_al = min(maxWidth, width_al)
         }
         
         if let minWidth = model.minWidth {
-            height_al = max(minWidth.value, height_al)
+            height_al = max(minWidth, height_al)
         }
         
         if autoHeightRatioValue != nil && width_al > 0 {
@@ -92,11 +92,11 @@ extension UIView {
         }
         
         if let maxHeight = model.maxHeight {
-            height_al = min(maxHeight.value, height_al)
+            height_al = min(maxHeight, height_al)
         }
         
         if let minHeight = model.minHeight {
-            height_al = max(minHeight.value, height_al)
+            height_al = max(minHeight, height_al)
         }
         
         if model.equal_wh != nil {

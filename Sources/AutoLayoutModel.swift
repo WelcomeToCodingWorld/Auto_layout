@@ -34,10 +34,11 @@ public class AutoLayoutModel:NSObject {
     
     var width : AutoLayoutModelItem?
     var height:AutoLayoutModelItem?
-    var maxHeight:AutoLayoutModelItem?
-    var maxWidth : AutoLayoutModelItem?
-    var minHeight: AutoLayoutModelItem?
-    var minWidth:AutoLayoutModelItem?
+    
+    var maxHeight:CGFloat?
+    var maxWidth : CGFloat?
+    var minHeight: CGFloat?
+    var minWidth:CGFloat?
     
     var ratio_width:AutoLayoutModelItem?
     var ratio_height:AutoLayoutModelItem?
@@ -57,6 +58,70 @@ public class AutoLayoutModel:NSObject {
     var equal_hw:AutoLayoutModelItem?
     
     var lastModelItem:AutoLayoutModelItem?
+    
+    subscript(index:String)->AutoLayoutModelItem? {
+        get{
+            switch index {
+            case "space_left":return space_left
+            case "space_right":return space_right
+            case "space_top":return space_top
+            case "space_bottom":return space_bottom
+            
+            case "equal_left":return equal_left
+            case "equal_right":return equal_right
+            case "equal_top":return equal_top
+            case "equal_bottom":return equal_bottom
+            case "equal_centerX":return equal_centerX
+            case "equal_centerY":return equal_centerY
+            default:
+                return nil
+            }
+        }
+        
+        set{
+            switch index {
+            case "space_left": space_left = newValue
+            case "space_right": space_right = newValue
+            case "space_top": space_top = newValue
+            case "space_bottom": space_bottom = newValue
+                
+            case "equal_left": equal_left = newValue
+            case "equal_right": equal_right = newValue
+            case "equal_top": equal_top = newValue
+            case "equal_bottom": equal_bottom = newValue
+            case "equal_centerX": equal_centerX = newValue
+            case "equal_centerY": equal_centerY = newValue
+            default:
+                break
+            }
+        }
+        
+        
+    }
+    
+    subscript(index:String) -> CGFloat? {
+        get{
+            switch index {
+            case "maxHeight":return maxHeight
+            case "maxWidth":return maxWidth
+            case "minHeight":return minHeight
+            case "minWidth":return minWidth
+            default:
+                return nil
+            }
+        }
+        
+        set{
+            switch index {
+            case "maxHeight": maxHeight = newValue
+            case "maxWidth": maxWidth = newValue
+            case "minHeight": minHeight = newValue
+            case "minWidth": minWidth = newValue
+            default:
+                break
+            }
+        }
+    }
     
     @discardableResult
     public func leftSpaceToView(_ view:AnyObject,_ value:CGFloat)->AutoLayoutModel{
@@ -229,7 +294,7 @@ extension AutoLayoutModel {
             }else if view is [UIView] {
                 item.refViewArray = view as? [UIView]
             }
-            self?.setValue(item, forKey: key)
+            self?[key] = item
             return self!
         }
     }
@@ -238,7 +303,7 @@ extension AutoLayoutModel {
         return {[weak self] (view:UIView) in
             var item = AutoLayoutModelItem()
             item.refView = view
-            self?.setValue(item, forKey: key)
+            self?[key] = item
             self?.lastModelItem = item
             // TODO: handle tableView
             
@@ -249,7 +314,7 @@ extension AutoLayoutModel {
     
     private func limitWH(for key:String)->Is {
         return {[weak self] (value:CGFloat) in
-            self?.setValue(value, forKey: key)
+            self?[key] = value
             return self!
         }
     }
