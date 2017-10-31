@@ -572,20 +572,19 @@ extension UILabel {
 // MARK: UILabel method swizzling
 extension SelfAware where Self:UILabel {
     static func awake() {
-        let originMethod = class_getClassMethod(self, #selector(setter: text))
-        let customMethod = class_getClassMethod(self, #selector(al_setText(text:)))
-        method_exchangeImplementations(originMethod!, customMethod!)
+        let originSelector = #selector(setter: text)
+        let swizzledSelector = #selector(al_setText(text:))
+        swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
     }
 }
 
 
 // MARK: method swizzling
-extension SelfAware where Self:UIView{
+extension UIView:SelfAware {
     static func awake() {
-        let originMethod = class_getInstanceMethod(self, #selector(layoutSubviews))
-        let customMethod = class_getInstanceMethod(self, #selector(al_autoLayoutSubviews))
-        method_exchangeImplementations(originMethod!, customMethod!)
+        let originSelector = #selector(layoutSubviews)
+        let swizzledSelector = #selector(al_autoLayoutSubviews)
+        swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
     }
 }
-
 

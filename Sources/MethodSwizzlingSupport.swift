@@ -8,6 +8,29 @@
 
 protocol SelfAware: class {
     static func awake()
+    static func swizzleMethod(originalSelector:Selector,swizzledSelector:Selector)
+}
+
+extension SelfAware where Self: UIView {
+    static func swizzleMethod(originalSelector:Selector,swizzledSelector:Selector) {
+        let originalMethod = class_getInstanceMethod(Self.self, originalSelector)
+        let swizzledMethod = class_getInstanceMethod(Self.self, swizzledSelector)
+        
+        var didAddMethod = false
+        if let swizzledMethod = swizzledMethod {
+            didAddMethod = class_addMethod(Self.self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
+        }
+        
+        if didAddMethod {
+            if let originMethod = originalMethod {
+                class_replaceMethod(Self.self, swizzledSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod))
+            }
+        }else {
+            if let originMethod = originalMethod,let swizzledMethod = swizzledMethod {
+                method_exchangeImplementations(originMethod, swizzledMethod)
+            }
+        }
+    }
 }
 
 class NothingToSeeHere {
