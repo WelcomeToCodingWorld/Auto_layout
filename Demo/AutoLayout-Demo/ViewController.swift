@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         let view1 = UIView()
         view1.backgroundColor = UIColor.cyan
         let view2 = UIView()

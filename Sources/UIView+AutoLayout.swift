@@ -21,11 +21,18 @@ extension UIView {
             guard let sv = superview else{
                 fatalError("cannot layout view:\(self) before been added to a superview")
             }
-            sv.autoLaoutModels.append(model)
+            
+            if sv.autoLayoutModels == nil {
+                sv.autoLayoutModels = [AutoLayoutModel]()
+            }
+
+            sv.autoLayoutModels?.append(model)
+            printLog(sv.autoLayoutModels)
             return model
         }
     }
     
+    //self.model
     var ownLayoutModel : AutoLayoutModel? {
         get {
            return (objc_getAssociatedObject(self, "ownLayoutModel.key") as? AutoLayoutModel)
@@ -36,17 +43,19 @@ extension UIView {
         }
     }
     
-    var autoLaoutModels : [AutoLayoutModel] {
+    //subviews' models
+    var autoLayoutModels : [AutoLayoutModel]? {
         get {
-            if  (objc_getAssociatedObject(self, "autoLaoutModels.key") as? [AutoLayoutModel]) == nil {
-                self.autoLaoutModels = [AutoLayoutModel]()
-            }
-            return (objc_getAssociatedObject(self, "autoLaoutModels.key") as? [AutoLayoutModel])!
+            return objc_getAssociatedObject(self, "autoLayoutModels.key") as? [AutoLayoutModel]
         }
         
         set{
-            objc_setAssociatedObject(self, "autoLaoutModels.key", [AutoLayoutModel](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, "autoLayoutModels.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
+    }
+    
+    func addModel(model:AutoLayoutModel) {
+        autoLayoutModels?.append(model)
     }
     
     @objc func al_autoLayoutSubviews() {
@@ -110,8 +119,12 @@ extension UIView {
     
     private func al_layoutSubviewsHandle() {
         // TODO: layout handle method
-        if autoLaoutModels.count > 0 {
-            for model in autoLaoutModels {
+        guard let models = autoLayoutModels else {
+            return
+        }
+        printLog(models)
+        if models.count > 0 {
+            for model in models {
                 resize(with: model)
             }
         }
@@ -232,7 +245,7 @@ extension UIView {
             let width = view.maxWidth ?? CGFloat(MAXFLOAT)
             label.numberOfLines = 1
             if let txt = label.text {
-                if txt.characters.count > 0 {
+                if txt.count > 0 {
                     if let attributed = label.isAttributedText {
                         if !attributed {
                             var rect = (txt as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: label.height_al), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font:label.font], context: nil)
@@ -274,7 +287,7 @@ extension UIView {
                     return
                 }
                 if let txt = label.text {
-                    if txt.characters.count > 0 {
+                    if txt.count > 0 {
                         if let attributed = label.isAttributedText {
                             if !attributed {
                                 let rect = (txt as NSString).boundingRect(with: CGSize(width: label.width_al, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font : label.font], context: nil)
