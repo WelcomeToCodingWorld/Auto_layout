@@ -13,21 +13,30 @@ protocol SelfAware: class {
 
 extension SelfAware where Self: UIView {
     static func swizzleMethod(originalSelector:Selector,swizzledSelector:Selector) {
-        let originalMethod = class_getInstanceMethod(Self.self, originalSelector)
-        let swizzledMethod = class_getInstanceMethod(Self.self, swizzledSelector)
+        var anyClass : AnyClass
         
+        if self is UILabel.Type {
+            anyClass = UILabel.self
+        }else {
+            anyClass = UIView.self
+        }
+        let originalMethod = class_getInstanceMethod(anyClass, originalSelector)
+        let swizzledMethod = class_getInstanceMethod(anyClass, swizzledSelector)
+
         var didAddMethod = false
         if let swizzledMethod = swizzledMethod {
-            didAddMethod = class_addMethod(Self.self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
+            didAddMethod = class_addMethod(anyClass, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
         }
-        
+
         if didAddMethod {
             if let originMethod = originalMethod {
-                class_replaceMethod(Self.self, swizzledSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod))
+                class_replaceMethod(anyClass, swizzledSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod))
             }
         }else {
             if let originMethod = originalMethod,let swizzledMethod = swizzledMethod {
                 method_exchangeImplementations(originMethod, swizzledMethod)
+            }else {
+                printLog("self:\(self)--Method:[\(originalMethod as Optional),\(swizzledMethod as Optional)]")
             }
         }
     }

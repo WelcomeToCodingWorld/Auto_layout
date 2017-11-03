@@ -546,8 +546,8 @@ extension UILabel {
         }
     }
     
-    @objc func al_setText(text:String) {
-        al_setText(text: text)
+    @objc func al_setText(_ text:String) {
+        al_setText(text)
         if maxWidth != nil {
             sizeToFit()
         }else if autoHeightRatioValue != nil {
@@ -569,21 +569,18 @@ extension UILabel {
     }
 }
 
-// MARK: UILabel method swizzling
-extension SelfAware where Self:UILabel {
-    static func awake() {
-        let originSelector = #selector(setter: text)
-        let swizzledSelector = #selector(al_setText(text:))
-        swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
-    }
-}
-
-
 // MARK: method swizzling
 extension UIView:SelfAware {
     static func awake() {
-        let originSelector = #selector(layoutSubviews)
-        let swizzledSelector = #selector(al_autoLayoutSubviews)
+        var originSelector:Selector
+        var swizzledSelector:Selector
+        if  let varType = self as? UILabel.Type {
+            originSelector = #selector(setter: varType.text)
+            swizzledSelector = #selector(varType.al_setText(_:))
+            swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
+        }
+        originSelector = #selector(layoutSubviews)
+        swizzledSelector = #selector(al_autoLayoutSubviews)
         swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
     }
 }
