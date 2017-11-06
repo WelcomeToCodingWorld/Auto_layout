@@ -13,7 +13,7 @@ extension UIView {
         }
         
         set {
-            self.frame.origin.x = left
+            self.frame.origin.x = newValue
         }
     }
     
@@ -23,7 +23,7 @@ extension UIView {
         }
         
         set{
-            self.frame.origin.x = right - width
+            self.frame.origin.x = newValue - width
         }
     }
     
@@ -33,7 +33,7 @@ extension UIView {
         }
         
         set{
-            self.frame.origin.y = top
+            self.frame.origin.y = newValue
         }
     }
     
@@ -43,7 +43,7 @@ extension UIView {
         }
         
         set{
-            self.frame.origin.y = bottom - height
+            self.frame.origin.y = newValue - height
         }
     }
     
@@ -53,7 +53,7 @@ extension UIView {
         }
         
         set{
-            self.center.x = centerX
+            self.center.x = newValue
         }
     }
     
@@ -63,7 +63,7 @@ extension UIView {
         }
         
         set{
-            self.center.y = centerY
+            self.center.y = newValue
         }
     }
     
@@ -72,7 +72,7 @@ extension UIView {
             return self.bounds.size.width
         }
         set{
-            self.frame.size.width = width
+            self.frame.size.width = newValue
         }
     }
     
@@ -81,7 +81,7 @@ extension UIView {
             return self.bounds.size.height
         }
         set{
-            self.frame.size.height = height
+            self.frame.size.height = newValue
         }
     }
     
@@ -100,7 +100,7 @@ extension UIView {
             return CGSize(width: width, height: height)
         }
         set{
-            self.frame.size = size
+            self.frame.size = newValue
         }
     }
     

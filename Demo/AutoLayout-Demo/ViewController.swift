@@ -15,9 +15,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let view1 = UIView()
+        let view1 = UILabel()
         view1.backgroundColor = UIColor.cyan
-        let view2 = UIView()
+        let view2 = UILabel()
         view2.backgroundColor = UIColor.purple
         view.addSubview(view1)
         view.addSubview(view2)

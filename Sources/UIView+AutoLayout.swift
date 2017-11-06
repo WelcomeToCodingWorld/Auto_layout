@@ -35,22 +35,22 @@ extension UIView {
     //self.model
     var ownLayoutModel : AutoLayoutModel? {
         get {
-           return (objc_getAssociatedObject(self, "ownLayoutModel.key") as? AutoLayoutModel)
+            return (objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.ownLayoutModelKey) as? AutoLayoutModel)
         }
         
         set{
-            objc_setAssociatedObject(self, "ownLayoutModel.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.ownLayoutModelKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     //subviews' models
     var autoLayoutModels : [AutoLayoutModel]? {
         get {
-            return objc_getAssociatedObject(self, "autoLayoutModels.key") as? [AutoLayoutModel]
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.autoLayoutModelsKey) as? [AutoLayoutModel]
         }
         
         set{
-            objc_setAssociatedObject(self, "autoLayoutModels.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.autoLayoutModelsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -135,13 +135,13 @@ extension UIView {
 extension UIView {
     var extManager:ExtManager? {
         get {
-            if objc_getAssociatedObject(self, "extManager.key") as? ExtManager == nil {
-                objc_setAssociatedObject(self, "extManager.key", ExtManager(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            if objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.extManagerKey) as? ExtManager == nil {
+                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.extManagerKey, ExtManager(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
-            return objc_getAssociatedObject(self, "extManager.key") as? ExtManager
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.extManagerKey) as? ExtManager
         }
         set {
-            objc_setAssociatedObject(self, "extManager.key", ExtManager(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.extManagerKey, ExtManager(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -156,13 +156,13 @@ extension UIView {
     
     var bottomViewsArray:[UIView]? {
         get{
-            if objc_getAssociatedObject(self, "bottomViewsArray.key") as? [UIView] == nil {
-                objc_setAssociatedObject(self, "bottomViewsArray.key", [UIView](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            if objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.bottomViewsArrayKey) as? [UIView] == nil {
+                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.bottomViewsArrayKey, [UIView](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
-            return objc_getAssociatedObject(self, "bottomViewsArray.key") as? [UIView]
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.bottomViewsArrayKey) as? [UIView]
         }
         set{
-            objc_setAssociatedObject(self, "bottomViewsArray.key", [UIView](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.bottomViewsArrayKey, [UIView](), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -178,21 +178,21 @@ extension UIView {
     
     var bottomViewBottomMargin:CGFloat? {
         get{
-            return objc_getAssociatedObject(self, "bottomViewBottomMargin.key") as? CGFloat
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.bottomViewBottomMarginKey) as? CGFloat
         }
         
         set{
-            objc_setAssociatedObject(self, "bottomViewBottomMargin.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.bottomViewBottomMarginKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     var autoHeight:CGFloat? {
         get{
-            return objc_getAssociatedObject(self, "autoHeight.key") as? CGFloat
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.autoHeightKey) as? CGFloat
         }
         
         set{
-            objc_setAssociatedObject(self, "autoHeight.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.autoHeightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -336,10 +336,7 @@ extension UIView {
             if view.fixedWidth == nil {
                 if view.superview == model.needAutoResizeView {//its superview's model. as: view.superview'left = view.left - offset
                     view.width_al = view.right - (0 + equalLeft.offset)
-                }else {//it's sibling's model. as: view.sibling'left = view.left - offset
-                    guard view != model.needAutoResizeView else {
-                        return
-                    }
+                }else if view != model.needAutoResizeView{//it's sibling's model. as: view.sibling'left = view.left - offset
                     view.width_al = view.right - ((equalLeft.refView?.right)! + equalLeft.offset)
                 }
             }
@@ -490,30 +487,30 @@ extension UIView {
 extension UIView  {
     var al_equalWidthViews:[UIView]? {
         get{
-            return objc_getAssociatedObject(self, "equalWidthViews.key") as? [UIView]
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.equalWidthViewsKey) as? [UIView]
         }
         
         set{
-            objc_setAssociatedObject(self, "equalWidthViews.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.equalWidthViewsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     var fixedWidth : CGFloat? {
         get{
-            return objc_getAssociatedObject(self, "fixedWidth.key") as? CGFloat
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.fixedWidthKey) as? CGFloat
         }
         
         set{
             if let width = newValue {
                 self.width_al = width
-                objc_setAssociatedObject(self, "fixedWidth.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.fixedWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     
     var fixedHeight : CGFloat? {
         get{
-            return objc_getAssociatedObject(self, "fixedHeight.key") as? CGFloat
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.fixedHeightKey) as? CGFloat
         }
         
         set{
@@ -525,21 +522,21 @@ extension UIView  {
     
     var autoHeightRatioValue:CGFloat? {
         get{
-            return objc_getAssociatedObject(self, "autoHeightRatioValue.key") as? CGFloat
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.autoHeightRatioValueKey) as? CGFloat
         }
         
         set{
-            objc_setAssociatedObject(self, "autoHeightRatioValue.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.autoHeightRatioValueKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     var maxWidth:CGFloat? {
         get{
-            return objc_getAssociatedObject(self, "maxWidth.key") as?  CGFloat
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.maxWidthKey) as?  CGFloat
         }
         
         set{
-            objc_setAssociatedObject(self, "maxWidth.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.maxWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
@@ -574,10 +571,10 @@ extension UILabel {
 extension UILabel {
     var isAttributedText : Bool? {
         get{
-            return objc_getAssociatedObject(self, "isAttributedText.key") as? Bool
+            return objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.isAttributedTextKey) as? Bool
         }
         set{
-            objc_setAssociatedObject(self, "isAttributedText.key", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.isAttributedTextKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
