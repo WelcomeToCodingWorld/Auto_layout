@@ -25,6 +25,8 @@
 		3A6237771FA7217D00F89190 /* Auto_Layout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25D2551FA1D64800A1C6EC /* Auto_Layout.framework */; };
 		3A6237791FA7226A00F89190 /* Auto_Layout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25D2551FA1D64800A1C6EC /* Auto_Layout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A6882A21FA3282600646669 /* MethodSwizzlingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */; };
+		3A937F561FB190B400FBB2E4 /* NavTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */; };
+		3A937F581FB1AA7D00FBB2E4 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +92,8 @@
 		3A62376C1FA71ED600F89190 /* AutoLayout_DemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout_DemoTests.swift; sourceTree = "<group>"; };
 		3A62376E1FA71ED600F89190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodSwizzlingSupport.swift; sourceTree = "<group>"; };
+		3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavTestViewController.swift; sourceTree = "<group>"; };
+		3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +155,7 @@
 		3A25D2571FA1D64800A1C6EC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3A0049E31FA8484C00E863B7 /* Util.swift */,
 				3A25D2581FA1D64800A1C6EC /* Auto_Layout.h */,
 				3A25D2591FA1D64800A1C6EC /* Info.plist */,
 				3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */,
@@ -200,9 +205,10 @@
 		3A6237561FA71ED500F89190 /* AutoLayout-Demo */ = {
 			isa = PBXGroup;
 			children = (
-				3A0049E31FA8484C00E863B7 /* Util.swift */,
 				3A6237571FA71ED500F89190 /* AppDelegate.swift */,
 				3A6237591FA71ED500F89190 /* ViewController.swift */,
+				3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */,
+				3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */,
 				3A62375B1FA71ED500F89190 /* Main.storyboard */,
 				3A62375E1FA71ED500F89190 /* Assets.xcassets */,
 				3A6237601FA71ED500F89190 /* LaunchScreen.storyboard */,
@@ -399,10 +405,12 @@
 			files = (
 				3A1454FA1FB037A3006E6D12 /* AutoLayoutRuntimeKeys.swift in Sources */,
 				3A5721091FA3023600D06E72 /* AutoLayoutModel.swift in Sources */,
+				3A937F561FB190B400FBB2E4 /* NavTestViewController.swift in Sources */,
 				3A0049E41FA8484D00E863B7 /* Util.swift in Sources */,
 				3A57210B1FA302DF00D06E72 /* UIView+ChangeFrame.swift in Sources */,
 				3A5721071FA2BFE200D06E72 /* UIView+AutoLayout.swift in Sources */,
 				3A62374F1FA6CA3200F89190 /* ExtManager.swift in Sources */,
+				3A937F581FB1AA7D00FBB2E4 /* NextViewController.swift in Sources */,
 				3A6882A21FA3282600646669 /* MethodSwizzlingSupport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

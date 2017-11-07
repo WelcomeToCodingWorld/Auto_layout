@@ -14,7 +14,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        view.backgroundColor = UIColor.orange
+        navigationController?.navigationBar.barTintColor = UIColor.colorFromRGB(rgbValue:0x8B008B)
+        navigationController?.navigationBar.tintColor = UIColor.magenta
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.green]
         let view1 = UILabel()
         view1.backgroundColor = UIColor.cyan
         let view2 = UILabel()

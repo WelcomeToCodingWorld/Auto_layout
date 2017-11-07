@@ -27,7 +27,6 @@ extension UIView {
             }
 
             sv.autoLayoutModels?.append(model)
-            printLog(sv.autoLayoutModels)
             return model
         }
     }
@@ -122,7 +121,6 @@ extension UIView {
         guard let models = autoLayoutModels else {
             return
         }
-        printLog(models)
         if models.count > 0 {
             for model in models {
                 resize(with: model)

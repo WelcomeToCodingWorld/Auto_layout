@@ -57,3 +57,29 @@ func cancel(_ task:Task?)  {
     task?(true)
 }
 
+func printSubViews(of view:UIView,level:UInt){
+    let subViews = view.subviews
+    if subViews.isEmpty {
+        return
+    }
+    
+    for subview in subViews {
+        var holder = ""
+        for _ in 1..<level {
+            holder += "\t"
+        }
+        #if DEBUG
+        print(String.init(format: "\(holder)%d:\(subview.self)", level))
+        #endif
+        printSubViews(of: subview, level: level + 1)
+    }
+}
+
+//#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+public extension UIColor {
+    static func colorFromRGB(rgbValue hexRgbValue:Int)-> UIColor {
+        return UIColor.init(red: CGFloat(Float((hexRgbValue&0xFF0000) >> 16))/255.0, green: CGFloat((hexRgbValue&0xFF00) >> 8)/255.0, blue: CGFloat(hexRgbValue&0xFF)/255.0 , alpha: 1.0)
+    }
+}
+
