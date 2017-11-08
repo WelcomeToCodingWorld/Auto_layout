@@ -16,11 +16,11 @@ struct AutoLayoutRuntimeKeys{
     static let bottomViewBottomMarginKey = UnsafeRawPointer("BottomViewBottomMargin.Key")
     static let autoHeightKey = UnsafeRawPointer("AutoHeight.Key")
     static let equalWidthViewsKey = UnsafeRawPointer("EqualWidthViews.Key")
-    static let fixedWidthKey = UnsafeRawPointer("FixedWidth.Key")
-    static let fixedHeightKey = UnsafeRawPointer("FixedHeight.Key")
+    static let fixedWidthKey = UnsafeRawPointer.init(bitPattern: "FixedWidth.Key".hashValue)!
+    static let fixedHeightKey = UnsafeRawPointer.init(bitPattern: "FixedHeight.Key".hashValue)!
     static let autoHeightRatioValueKey = UnsafeRawPointer("AutoHeightRatioValue.Key")
     static let maxWidthKey = UnsafeRawPointer("MaxWidth.Key")
-    static let isAttributedTextKey = UnsafeRawPointer("IsAttributedText.Key")
+    static let isAttributedTextKey = UnsafeRawPointer.init(bitPattern: "IsAttributedText.Key".hashValue)!
 }
 
 

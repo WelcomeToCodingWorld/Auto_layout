@@ -23,7 +23,7 @@ extension UIView {
         }
         
         set{
-            self.frame.origin.x = newValue - width
+            left = newValue - width
         }
     }
     
@@ -43,7 +43,7 @@ extension UIView {
         }
         
         set{
-            self.frame.origin.y = newValue - height
+            top = newValue - height
         }
     }
     

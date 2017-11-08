@@ -25,6 +25,8 @@
 		3A6237771FA7217D00F89190 /* Auto_Layout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25D2551FA1D64800A1C6EC /* Auto_Layout.framework */; };
 		3A6237791FA7226A00F89190 /* Auto_Layout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25D2551FA1D64800A1C6EC /* Auto_Layout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A6882A21FA3282600646669 /* MethodSwizzlingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */; };
+		3A6F98321FB29B5C000B6DC2 /* UIButton+ZYExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4549731FB299EC0091F222 /* UIButton+ZYExtension.swift */; };
+		3A6F98331FB29B66000B6DC2 /* UILabel+ZYExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4549741FB299EC0091F222 /* UILabel+ZYExtension.swift */; };
 		3A937F561FB190B400FBB2E4 /* NavTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */; };
 		3A937F581FB1AA7D00FBB2E4 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */; };
 /* End PBXBuildFile section */
@@ -77,6 +79,8 @@
 		3A25D2631FA1D64800A1C6EC /* Auto_LayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auto_LayoutTests.swift; sourceTree = "<group>"; };
 		3A25D2651FA1D64800A1C6EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A25D2701FA1D77F00A1C6EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		3A4549731FB299EC0091F222 /* UIButton+ZYExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+ZYExtension.swift"; sourceTree = "<group>"; };
+		3A4549741FB299EC0091F222 /* UILabel+ZYExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ZYExtension.swift"; sourceTree = "<group>"; };
 		3A5721061FA2BFE200D06E72 /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoLayout.swift"; sourceTree = "<group>"; };
 		3A5721081FA3023600D06E72 /* AutoLayoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutModel.swift; sourceTree = "<group>"; };
 		3A57210A1FA302DF00D06E72 /* UIView+ChangeFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ChangeFrame.swift"; sourceTree = "<group>"; };
@@ -193,6 +197,15 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		3A4549721FB299EC0091F222 /* Ext */ = {
+			isa = PBXGroup;
+			children = (
+				3A4549731FB299EC0091F222 /* UIButton+ZYExtension.swift */,
+				3A4549741FB299EC0091F222 /* UILabel+ZYExtension.swift */,
+			);
+			path = Ext;
+			sourceTree = "<group>";
+		};
 		3A6237501FA71E3000F89190 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +218,7 @@
 		3A6237561FA71ED500F89190 /* AutoLayout-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				3A4549721FB299EC0091F222 /* Ext */,
 				3A6237571FA71ED500F89190 /* AppDelegate.swift */,
 				3A6237591FA71ED500F89190 /* ViewController.swift */,
 				3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */,
@@ -428,6 +442,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A62375A1FA71ED500F89190 /* ViewController.swift in Sources */,
+				3A6F98331FB29B66000B6DC2 /* UILabel+ZYExtension.swift in Sources */,
+				3A6F98321FB29B5C000B6DC2 /* UIButton+ZYExtension.swift in Sources */,
 				3A6237581FA71ED500F89190 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
