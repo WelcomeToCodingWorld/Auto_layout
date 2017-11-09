@@ -18,8 +18,6 @@ class NextViewController: UIViewController {
         if let navigationBar = navigationController?.navigationBar {
             navigationBar.setBackgroundImage(nil, for: .default)
             navigationBar.shadowImage = nil
-            navigationBar.isTranslucent = false
-            navigationController?.view?.backgroundColor = nil
         }
     }
     
@@ -28,8 +26,6 @@ class NextViewController: UIViewController {
         if let navigationBar = navigationController?.navigationBar {
             navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationBar.shadowImage = UIImage()
-            navigationBar.isTranslucent = true//default is true
-            navigationController?.view?.backgroundColor = .clear
         }
     }
 }

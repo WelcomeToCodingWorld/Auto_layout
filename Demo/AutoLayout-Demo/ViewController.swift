@@ -19,10 +19,14 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.green]
         let view1 = UILabel.label(text: "Godsgwegwegwewgw2e3gwedGodsgwegwegwewgw2e3gwedGodsgwegwegwewgw2e3gwedGodsgwegwegwewgw2e3gwedGodsgwegwegwewgw2e3gwedGodsgwegwegwewgw2e3gwedGodsgwegwegwewgw2e3gwed", textAttributes: [UIFont.systemFont(ofSize: 13)], alignment: .center,bgColor: UIColor.cyan)
         
-        var attributedStr = NSMutableAttributedString.init(string: view1.text!)
+        let paraStyle = NSMutableParagraphStyle()
+        paraStyle.lineSpacing = 8
         
         
-//        view1.isAttributedText = true
+        let attributedStr = NSMutableAttributedString.init(string: view1.text!)
+        attributedStr.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, (view1.text?.count)! - 1))
+        view1.attributedText = attributedStr
+        view1.isAttributedText = true
         
         let view2 = UILabel.label(text: "Gash", textAttributes: [UIFont.systemFont(ofSize: 13)],bgColor: UIColor.purple)
         view.addSubview(view1)
@@ -39,6 +43,14 @@ class ViewController: UIViewController {
         view1.al_layout().leftSpaceToView(view, 15).rightSpaceToView(view, 15).topSpaceToView(view, 100).autoHeightRatio(value: 0)
         view2.al_layout().leftEqualToView(view1).rightEqualToView(view1).topSpaceToView(view1, 20).heightIs(50)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        if let navigation = navigationController {
+//            printSubViews(of:navigation.navigationBar,level:1)
+//        }
+        printLog(navigationController?.navigationBar)
     }
 
     override func didReceiveMemoryWarning() {

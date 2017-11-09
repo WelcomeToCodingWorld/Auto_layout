@@ -29,6 +29,7 @@
 		3A6F98331FB29B66000B6DC2 /* UILabel+ZYExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4549741FB299EC0091F222 /* UILabel+ZYExtension.swift */; };
 		3A937F561FB190B400FBB2E4 /* NavTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */; };
 		3A937F581FB1AA7D00FBB2E4 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */; };
+		3AD7E80B1FB4235300E5C8FF /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0049E31FA8484C00E863B7 /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		3A6882A11FA3282600646669 /* MethodSwizzlingSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodSwizzlingSupport.swift; sourceTree = "<group>"; };
 		3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavTestViewController.swift; sourceTree = "<group>"; };
 		3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewController.swift; sourceTree = "<group>"; };
+		3AD7E80A1FB403B300E5C8FF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 				3A6237571FA71ED500F89190 /* AppDelegate.swift */,
 				3A6237591FA71ED500F89190 /* ViewController.swift */,
 				3A937F551FB190B400FBB2E4 /* NavTestViewController.swift */,
+				3AD7E80A1FB403B300E5C8FF /* README.md */,
 				3A937F571FB1AA7D00FBB2E4 /* NextViewController.swift */,
 				3A62375B1FA71ED500F89190 /* Main.storyboard */,
 				3A62375E1FA71ED500F89190 /* Assets.xcassets */,
@@ -443,6 +446,7 @@
 			files = (
 				3A62375A1FA71ED500F89190 /* ViewController.swift in Sources */,
 				3A6F98331FB29B66000B6DC2 /* UILabel+ZYExtension.swift in Sources */,
+				3AD7E80B1FB4235300E5C8FF /* Util.swift in Sources */,
 				3A6F98321FB29B5C000B6DC2 /* UIButton+ZYExtension.swift in Sources */,
 				3A6237581FA71ED500F89190 /* AppDelegate.swift in Sources */,
 			);
