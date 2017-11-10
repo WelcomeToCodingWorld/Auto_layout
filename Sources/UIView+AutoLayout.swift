@@ -66,53 +66,55 @@ extension UIView {
         guard let view = model.needAutoResizeView else {
             return
         }
-//        if view.maxWidth != nil && (model.space_right != nil || model.equal_right != nil) {
-//            layoutAutoWidth(view: view, model: model)
-//            fixedWidth = view.width_al
-//        }
+        if view.maxWidth != nil && (model.space_right != nil || model.equal_right != nil) {
+            layoutAutoWidth(view: view, model: model)
+            fixedWidth = view.width_al
+        }
+        
         layoutWidth(view: view, model: model)
         layoutHeight(view: view, model: model)
         layoutLeft(view: view, model: model)
         layoutRight(view: view, model: model)
         
-//        if view.autoHeightRatioValue != nil && view.width_al > 0 && (model.space_bottom != nil || model.equal_bottom != nil) {
-//            layoutAutoHeight(view: view, model: model)
-//            fixedHeight = view.height_al
-//        }
+        if view.autoHeightRatioValue != nil && view.width_al > 0 && (model.space_bottom != nil || model.equal_bottom != nil) {
+            layoutAutoHeight(view: view, model: model)
+            fixedHeight = view.height_al
+        }
         
         layoutTop(view: view, model: model)
         layoutBottom(view: view, model: model)
         
-//        if view.maxWidth != nil {
-//            layoutAutoWidth(view: view, model: model)
-//        }
-//        
-//        if let maxWidth = model.maxWidth {
-//            width_al = min(maxWidth, width_al)
-//        }
-//        
-//        if let minWidth = model.minWidth {
-//            height_al = max(minWidth, height_al)
-//        }
-//        
+        //做最后限制
+        if view.maxWidth != nil {
+            layoutAutoWidth(view: view, model: model)
+        }
+
+        if let maxWidth = model.maxWidth {
+            view.width_al = min(maxWidth, view.width_al)
+        }
+        
+        if let minWidth = model.minWidth {
+            view.height_al = max(minWidth, view.height_al)
+        }
+
         if view.autoHeightRatioValue != nil && width_al > 0 {
             layoutAutoHeight(view: view, model: model)
         }
-//
-//        if let maxHeight = model.maxHeight {
-//            height_al = min(maxHeight, height_al)
-//        }
-//        
-//        if let minHeight = model.minHeight {
-//            height_al = max(minHeight, height_al)
-//        }
+
+        if let maxHeight = model.maxHeight {
+            view.height_al = min(maxHeight, view.height_al)
+        }
+
+        if let minHeight = model.minHeight {
+            view.height_al = max(minHeight, view.height_al)
+        }
         
         if model.equal_wh != nil {
-            width_al = height_al
+            view.width_al = view.height_al
         }
         
         if model.equal_hw != nil{
-            height_al = width_al
+            view.height_al = view.width_al
         }
     }
     
@@ -235,30 +237,24 @@ extension UIView {
         }
     }
     
+    // MARK: For UILabel
     func layoutAutoWidth(view:UIView,model:AutoLayoutModel) {
-        guard view is UILabel else {
+        guard let label = (view as? UILabel) else {
             return
         }
-        if let label = (view as? UILabel) {
-            let width = view.maxWidth ?? CGFloat(MAXFLOAT)
-            label.numberOfLines = 1
-            if let txt = label.text {
-                if txt.count > 0 {
-                    if label.isAttributedText {
-                        var rect = (txt as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: label.height_al), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font:label.font], context: nil)
-                        if rect.size.width > width {
-                            rect.size.width = width
-                        }
-                        label.width = rect.size.width + 0.1
-                    }else {
-                        sizeToFit()
-                        if self.width_al > width {
-                            label.width_al = width
-                        }
-                    }
+        let maxWidth = view.maxWidth ?? CGFloat(MAXFLOAT)
+        label.numberOfLines = 1
+        if let txt = label.text {
+            if txt.count > 0 {
+                if label.isAttributedText {
+                    sizeToFit()
+                    label.width_al = min(label.width_al, maxWidth)
                 }else {
-                    label.size = .zero
+                    let rect = (txt as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: label.height_al), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font:label.font], context: nil)
+                    label.width = min(rect.size.width, maxWidth) + 0.1
                 }
+            }else {
+                label.size = .zero
             }
         }
     }
@@ -289,7 +285,7 @@ extension UIView {
                     if txt.count > 0 {
                         label.numberOfLines = 0
                         if label.isAttributedText {
-                            view.sizeToFit()
+                            label.sizeToFit()
                         }else {
                             let rect = (txt as NSString).boundingRect(with: CGSize(width: label.width_al, height: CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font : label.font], context: nil)
                             label.height_al = rect.size.height + 0.1
@@ -541,14 +537,14 @@ extension UIView  {
 
 // MARK: UILable Layout
 extension UILabel {
-    func singleLineAutoResize(with maxWidth:CGFloat) {
+    public func singleLineAutoResize(with maxWidth:CGFloat) {
         self.maxWidth = maxWidth
     }
     
-    func showMaxNumberOfLines(_ lineCount:UInt) {
+    public func showMaxNumberOfLines(_ lineCount:UInt) {
         assert(ownLayoutModel != nil, "you should set this step after layout")
         if lineCount > 0 {
-             al_layout().maxWidthIs(font.lineHeight*CGFloat(lineCount) + 0.1)
+             al_layout().maxHeightIs(font.lineHeight*CGFloat(lineCount) + 0.1)
         }else {
              al_layout().maxHeightIs(CGFloat(MAXFLOAT))
         }
@@ -557,12 +553,13 @@ extension UILabel {
     @objc func al_setText(_ text:String) {
         al_setText(text)
         if maxWidth != nil {
+            //this will generate layoutSubviews calling
             sizeToFit()
         }else if autoHeightRatioValue != nil {
-            self.size = .zero
+            //this will generate layoutSubviews calling
+            size = .zero
         }
     }
-    
 }
 
 // MARK: UILable Runtime keys
@@ -595,4 +592,3 @@ extension UIView:SelfAware {
         swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
     }
 }
-
