@@ -17,20 +17,26 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor.colorFromRGB(rgbValue:0x8B008B)
         navigationController?.navigationBar.tintColor = UIColor.magenta
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.green]
-        let view1 = UILabel.label(text: "AttributedStringsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFit---AutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeight", textAttributes: [UIFont.systemFont(ofSize: 13)], alignment: .center,bgColor: UIColor.lightGray)
+//        let view1 = UILabel.label(text: "AttributedStringsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFit---AutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeight", textAttributes: [UIFont.systemFont(ofSize: 13)], alignment: .center,bgColor: UIColor.lightGray)
+        let view1 = UILabel()
+        view1.textAlignment = .center
+        view1.font = UIFont.systemFont(ofSize: 13)
+        view1.backgroundColor = UIColor.lightGray
+        view1.isAttributedText = true
+        
         view.addSubview(view1)
         let paraStyle = NSMutableParagraphStyle()
         printLog(paraStyle.lineSpacing)
         paraStyle.lineSpacing = 8
 
-
-        let attributedStr = NSMutableAttributedString.init(string: view1.text!)
-        attributedStr.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, (view1.text?.count)! - 1))
-        view1.attributedText = attributedStr
-        view1.isAttributedText = true
+        if let txt = view1.text {
+            let attributedStr = NSMutableAttributedString.init(string: txt)
+            attributedStr.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, txt.count - 1))
+            view1.attributedText = attributedStr
+        }
+        
         
         let view2 = UILabel.label(text: "Gash", textAttributes: [UIFont.systemFont(ofSize: 13)],bgColor: UIColor.lightGray)
-//        view.addSubview(view1)
         view.addSubview(view2)
         
         let view3 = UILabel.label(text: "negativeHeightAreTreatedAsIt'sAbsuluteValueAutomatically", textAttributes: [UIFont .systemFont(ofSize: 15)], alignment: .center, bgColor: UIColor.lightGray)
@@ -45,7 +51,7 @@ class ViewController: UIViewController {
         let view5 = UILabel.label(text: "stringSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFit", textAttributes: [UIFont.systemFont(ofSize: 12)],bgColor:UIColor.lightGray)
         view.addSubview(view5)
         view5.frame = CGRect(x: 15, y: 450, width: 150, height: 0)
-        view5.numberOfLines = 1
+        view5.numberOfLines = 0
         let attributedTxt = NSMutableAttributedString.init(string: view5.text!)
         attributedTxt.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, (view5.text?.count)! - 1))
         view5.attributedText = attributedTxt
@@ -57,15 +63,11 @@ class ViewController: UIViewController {
         view4.al_layout().leftEqualToView(view3).topSpaceToView(view3, 24).heightIs(40)
         view4.singleLineAutoResize(with: 320)
         view4.text = "setTextAfterLayoutSettingFinishedDrawInBoundingRect---SingleLine"
-//        view1.showMaxNumberOfLines(2)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        if let navigation = navigationController {
-//            printSubViews(of:navigation.navigationBar,level:1)
-//        }
-//        printLog(navigationController?.navigationBar)
+        view1.showMaxNumberOfLines(2)
+        let view1Str = "AttributedStringsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFit---AutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeight"
+        let attributedStr = NSMutableAttributedString.init(string:view1Str)
+        attributedStr.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, view1Str.count - 1))
+        view1.attributedText = attributedStr
     }
 
     override func didReceiveMemoryWarning() {

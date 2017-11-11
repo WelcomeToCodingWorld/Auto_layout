@@ -103,6 +103,13 @@ extension UIView {
 
         if let maxHeight = model.maxHeight {
             view.height_al = min(maxHeight, view.height_al)
+        }else if let label = view as? UILabel{
+            if let maxLines = label.maxNumberOfLines {
+                label.showMaxNumberOfLines(maxLines)
+                if let maxHeight = model.maxHeight {
+                    view.height_al = min(maxHeight, label.height_al)
+                }
+            }
         }
 
         if let minHeight = model.minHeight {
@@ -496,7 +503,7 @@ extension UIView  {
         set{
             if let width = newValue {
                 self.width_al = width
-                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.fixedWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.fixedWidthKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
             }
         }
     }
@@ -509,7 +516,7 @@ extension UIView  {
         set{
             if let height = newValue {
                 self.height_al = height
-                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.fixedHeightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.fixedHeightKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
             }
         }
     }
@@ -520,7 +527,7 @@ extension UIView  {
         }
         
         set{
-            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.autoHeightRatioValueKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.autoHeightRatioValueKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
@@ -530,7 +537,7 @@ extension UIView  {
         }
         
         set{
-            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.maxWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.maxWidthKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 }
@@ -544,7 +551,22 @@ extension UILabel {
     public func showMaxNumberOfLines(_ lineCount:UInt) {
         assert(ownLayoutModel != nil, "you should set this step after layout")
         if lineCount > 0 {
-             al_layout().maxHeightIs(font.lineHeight*CGFloat(lineCount) + 0.1)
+            maxNumberOfLines = lineCount
+            lineBreakMode = .byTruncatingTail
+            if isAttributedText {
+                if let attributedTxt = text {
+                    var lineSpacing : CGFloat = 0
+                    let rangePointer = UnsafeMutablePointer<NSRange>.allocate(capacity: 1)
+                    rangePointer.initialize(to: NSMakeRange(0, attributedTxt.count - 1))
+                    if let paraStyle = attributedText?.attributes(at: 0, effectiveRange:rangePointer)[NSAttributedStringKey.paragraphStyle] as? NSParagraphStyle {
+                        lineSpacing = paraStyle.lineSpacing
+                    }
+                    al_layout().maxHeightIs((font.lineHeight + lineSpacing)*CGFloat(lineCount) - lineSpacing)
+                }
+                
+            }else {
+                al_layout().maxHeightIs(font.lineHeight*CGFloat(lineCount + 1) + 0.1)
+            }
         }else {
              al_layout().maxHeightIs(CGFloat(MAXFLOAT))
         }
@@ -560,6 +582,17 @@ extension UILabel {
             size = .zero
         }
     }
+    
+    var maxNumberOfLines : UInt? {
+        get {
+            return objc_getAssociatedObject(self,AutoLayoutRuntimeKeys.maxNumberOfLinesKey) as? UInt
+        }
+        
+        set{
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.maxNumberOfLinesKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+    
 }
 
 // MARK: UILable Runtime keys
@@ -572,7 +605,7 @@ extension UILabel {
             return (objc_getAssociatedObject(self, AutoLayoutRuntimeKeys.isAttributedTextKey) as? Bool)!
         }
         set{
-            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.isAttributedTextKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AutoLayoutRuntimeKeys.isAttributedTextKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 }

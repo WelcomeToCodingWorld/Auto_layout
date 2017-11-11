@@ -21,6 +21,7 @@ struct AutoLayoutRuntimeKeys{
     static let autoHeightRatioValueKey = UnsafeRawPointer("AutoHeightRatioValue.Key")
     static let maxWidthKey = UnsafeRawPointer("MaxWidth.Key")
     static let isAttributedTextKey = UnsafeRawPointer.init(bitPattern: "IsAttributedText.Key".hashValue)!
+    static let maxNumberOfLinesKey = UnsafeRawPointer.init(bitPattern: "MaxNumberOfLines.Key".hashValue)!
 }
 
 
