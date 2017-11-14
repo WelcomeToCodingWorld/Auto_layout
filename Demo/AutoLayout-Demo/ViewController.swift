@@ -68,6 +68,19 @@ class ViewController: UIViewController {
         let attributedStr = NSMutableAttributedString.init(string:view1Str)
         attributedStr.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, view1Str.count - 1))
         view1.attributedText = attributedStr
+        
+        local {
+            let view6 = UILabel.label(text: "yangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguo", textAttributes: [UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.init(3))])
+            view6.frame = CGRect(x: 200, y: 450, width: 100, height: 50)
+            view.addSubview(view6)
+            view6.numberOfLines = 0
+            view6.backgroundColor = UIColor.lightGray
+            let size = view6.sizeThatFits(CGSize(width: 100, height: 50))
+            let size1 = (view6.text! as NSString).size(withAttributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.init(3))])
+            
+            printLog(size)
+            printLog(size1)
+        }
     }
 
     override func didReceiveMemoryWarning() {
