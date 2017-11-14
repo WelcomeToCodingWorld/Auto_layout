@@ -572,17 +572,6 @@ extension UILabel {
         }
     }
     
-    @objc func al_setText(_ text:String) {
-        al_setText(text)
-        if maxWidth != nil {
-            //this will generate layoutSubviews calling
-            sizeToFit()
-        }else if autoHeightRatioValue != nil {
-            //this will generate layoutSubviews calling
-            size = .zero
-        }
-    }
-    
     var maxNumberOfLines : UInt? {
         get {
             return objc_getAssociatedObject(self,AutoLayoutRuntimeKeys.maxNumberOfLinesKey) as? UInt
@@ -615,11 +604,6 @@ extension UIView:SelfAware {
     static func awake() {
         var originSelector:Selector
         var swizzledSelector:Selector
-        if  let varType = self as? UILabel.Type {
-            originSelector = #selector(setter: varType.text)
-            swizzledSelector = #selector(varType.al_setText(_:))
-            swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)
-        }
         originSelector = #selector(layoutSubviews)
         swizzledSelector = #selector(al_autoLayoutSubviews)
         swizzleMethod(originalSelector: originSelector, swizzledSelector: swizzledSelector)

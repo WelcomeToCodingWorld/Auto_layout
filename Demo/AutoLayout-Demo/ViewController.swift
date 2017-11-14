@@ -45,8 +45,11 @@ class ViewController: UIViewController {
         //note: -30 is treated as 30
         view3.frame = CGRect(x: 10, y: 350, width: 100, height: -30)
         
-        let view4 = UILabel.label(text: "setTextBeforeLayoutSettingDrawInBoundingRect---SingleLine", textAttributes: [UIFont .systemFont(ofSize: 16)],bgColor:UIColor.lightGray)
-        view.addSubview(view4)        
+//        let view4 = UILabel.label(text: "setTextBeforeLayoutSettingDrawInBoundingRect---SingleLine", textAttributes: [UIFont .systemFont(ofSize: 16)],bgColor:UIColor.lightGray)
+        let view4 = UILabel()
+        view4.backgroundColor = UIColor.lightGray
+        view4.font = UIFont.systemFont(ofSize: 13)
+        view.addSubview(view4)
         
         let view5 = UILabel.label(text: "stringSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFitSizeToFit", textAttributes: [UIFont.systemFont(ofSize: 12)],bgColor:UIColor.lightGray)
         view.addSubview(view5)
@@ -63,11 +66,13 @@ class ViewController: UIViewController {
         view4.al_layout().leftEqualToView(view3).topSpaceToView(view3, 24).heightIs(40)
         view4.singleLineAutoResize(with: 320)
         view4.text = "setTextAfterLayoutSettingFinishedDrawInBoundingRect---SingleLine"
-        view1.showMaxNumberOfLines(2)
+        view1.showMaxNumberOfLines(4)
         let view1Str = "AttributedStringsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFitsizeToFit---AutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeightAutoHeight"
         let attributedStr = NSMutableAttributedString.init(string:view1Str)
         attributedStr.addAttributes([NSAttributedStringKey.paragraphStyle:paraStyle], range: NSMakeRange(0, view1Str.count - 1))
+        //setText and setAttributedText will cause it's superview to call layoutSubviews.
         view1.attributedText = attributedStr
+
         
         local {
             let view6 = UILabel.label(text: "yangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguoyangguo", textAttributes: [UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.init(3))])
@@ -81,6 +86,8 @@ class ViewController: UIViewController {
             printLog(size)
             printLog(size1)
         }
+
+        view4.text = "gwegwegwegwehwhwewehwedfhdegwehwhwewehwedfhdegwehwhwewehwedfhd"
     }
 
     override func didReceiveMemoryWarning() {
